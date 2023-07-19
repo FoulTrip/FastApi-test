@@ -1,0 +1,9 @@
+services:
+  - name: fastapi-app
+    # Usamos la imagen que definimos en el Dockerfile
+    image: python:3.9
+    # ejecutamos FastAPI (incluyendo la activación del entorno virtual)
+    startCommand: /bin/bash -c "python -m venv venv && source venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      # variable de entorno para deshabilitar la creación de archivos .pyc
+      PYTHONUNBUFFERED: "1"
