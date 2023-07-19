@@ -1,22 +1,20 @@
-# imagen de Python
+# Usa la imagen oficial de Python como base
 FROM python:3.9
 
-# para no generar archivos .pyc
-ENV PYTHONDONTWRITEBYTECODE 1
-
-# Deshabilita el búfer de salida (stdout y stderr) para que la salida aparezca en tiempo real
-ENV PYTHONUNBUFFERED 1
-
-# Instala las dependencias de la aplicación
-COPY requirements.txt /app/requirements.txt
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
+
+# Copia los archivos necesarios al contenedor
+COPY requirements.txt .
+
+# Instala las dependencias en el contenedor
 RUN pip install -r requirements.txt
 
-# Copia el resto de los archivos de la aplicación
-COPY . /app
+# Copia el resto de los archivos al contenedor
+COPY . .
 
-# Expone el puerto 8000 (o el que esté configurado en la aplicación)
-EXPOSE 8000
+# Expone el puerto 80 para que sea accesible desde el exterior
+EXPOSE 80
 
-# Inicio el servidor Uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Ejecuta el servidor FastAPI usando Uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
